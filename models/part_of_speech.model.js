@@ -10,15 +10,19 @@ function model(sequelize) {
             autoIncrement: true,
             primaryKey: true,
         },
-        question_text: {
-            type: DataTypes.STRING(255),
+        part_name: {
+            type: DataTypes.STRING(20),
             allowNull: false
-        }
+        },
+        part_abbreviation: {
+            type: DataTypes.STRING(10),
+            allowNull: false
+        },
     };
     const options = {
         timestamps: false,
-        tableName:"Questions"
+        tableName: "PartOfSpeech"
     };
 
-    return sequelize.define("Question", attributes, options);
+    return sequelize.define("PartOfSpeech", attributes, options);
 }

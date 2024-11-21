@@ -10,15 +10,19 @@ function model(sequelize) {
             autoIncrement: true,
             primaryKey: true,
         },
-        question_text: {
-            type: DataTypes.STRING(255),
+        word_id: {
+            type: DataTypes.INTEGER,
             allowNull: false
-        }
+        },
+        list_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
     };
     const options = {
         timestamps: false,
-        tableName:"Questions"
+        tableName: "WordList"
     };
 
-    return sequelize.define("Question", attributes, options);
+    return sequelize.define("WordList", attributes, options);
 }

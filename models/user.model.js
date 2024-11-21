@@ -10,35 +10,40 @@ function model(sequelize) {
             autoIncrement: true,
             primaryKey: true,
         },
-        foreign_word: {
-            type: DataTypes.STRING(100),
+        name: {
+            type: DataTypes.STRING(50),
             allowNull: false
         },
-        main_lang_word: {
-            type: DataTypes.STRING(100),
+        surname: {
+            type: DataTypes.STRING(50),
             allowNull: false
         },
-        hint_text: {
-            type: DataTypes.STRING(150),
+        photo: {
+            type: DataTypes.BLOB('long'),
+            allowNull: false
+        },
+        password: {
+            type: DataTypes.BLOB(255),
+            allowNull: false
+        },
+        daily_goal: {
+            type: DataTypes.INTEGER,
             allowNull: true
         },
-        level_id: {
+        streak_count: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            defaultValue: 0
         },
-        part_of_speech_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true
-        },
-        category_id: {
-            type: DataTypes.INTEGER,
+        device_id: {
+            type: DataTypes.STRING(255),
             allowNull: false
         },
     };
     const options = {
         timestamps: false,
-        tableName:"Words"
+        tableName: "Users"
     };
 
-    return sequelize.define("Word", attributes, options);
+    return sequelize.define("User", attributes, options);
 }

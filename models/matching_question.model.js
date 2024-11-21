@@ -13,12 +13,12 @@ function model(sequelize) {
         question_text: {
             type: DataTypes.STRING(255),
             allowNull: false
-        }
+        },
     };
     const options = {
         timestamps: false,
-        tableName:"Questions"
+        tableName: "MatchingQuestions"
     };
 
-    return sequelize.define("Question", attributes, options);
+    return sequelize.define("MatchingQuestion", attributes, options);
 }

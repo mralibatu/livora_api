@@ -10,35 +10,27 @@ function model(sequelize) {
             autoIncrement: true,
             primaryKey: true,
         },
-        foreign_word: {
-            type: DataTypes.STRING(100),
-            allowNull: false
-        },
-        main_lang_word: {
-            type: DataTypes.STRING(100),
-            allowNull: false
-        },
-        hint_text: {
-            type: DataTypes.STRING(150),
-            allowNull: true
-        },
-        level_id: {
+        exam_id: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        part_of_speech_id: {
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        is_completed: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
+        point: {
             type: DataTypes.INTEGER,
             allowNull: true
-        },
-        category_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false
         },
     };
     const options = {
         timestamps: false,
-        tableName:"Words"
+        tableName: "UserExam"
     };
 
-    return sequelize.define("Word", attributes, options);
+    return sequelize.define("UserExam", attributes, options);
 }
