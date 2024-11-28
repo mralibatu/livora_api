@@ -26,17 +26,5 @@ function model(sequelize) {
 
     const ExamQuestion =  sequelize.define("ExamQuestion", attributes, options);
 
-    ExamQuestion.belongsTo(sequelize.models.Exam, {
-        foreignKey: 'exam_id',
-        targetKey: 'id', 
-        as: 'exam' 
-    });
-
-    ExamQuestion.belongsTo(sequelize.models.Question, {
-        foreignKey: 'question_id',
-        targetKey: 'id', 
-        as: 'question'
-    });
-
     return ExamQuestion;
 }

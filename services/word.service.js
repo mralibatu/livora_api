@@ -34,6 +34,16 @@ const updateWord = async ({ id, foreign_word, main_lang_word, hint_text, level_i
     return { id, foreign_word, main_lang_word, hint_text, level_id, part_of_speech_id, category_id };
 };
 
+const findWordByIdWithCategory = async (id) => {
+    return await db.Word.findByPk(id, {
+        include: {
+            model: db.Category,
+            as: "wordxcategory", // Alias defined in the relationship
+            attributes: ["category_name"], // Only fetch the category_name column
+        },
+    });
+};
+
 const deleteWord = async (id) => {
     await db.Word.destroy({
         where: { id: id },
@@ -45,5 +55,6 @@ module.exports = {
     createWord,
     findWordById,
     updateWord,
-    deleteWord
+    deleteWord,
+    findWordByIdWithCategory
 };

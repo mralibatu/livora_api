@@ -29,6 +29,24 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.get("/:id/category", async (req, res) => {
+    try {
+        var word = await wordService.findWordByIdWithCategory(req.params.id);
+        if (!word) {
+            return res
+                .status(404)
+                .json({ statusCode: 404, error: "Word does not exist" });
+        }
+        return res.json(word);
+    } catch (error) {
+        console.log(error);
+        return res
+            .status(500)
+            .json({ statusCode: 500, error: "Something went wrong" });
+    }
+});
+
+
 
 router.post("/", async (req, res) => {
     try {

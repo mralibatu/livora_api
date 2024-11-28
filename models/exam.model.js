@@ -38,14 +38,7 @@ function model(sequelize) {
     };
 
     const Exam =  sequelize.define("Exam", attributes, options);
-    
-    Exam.belongsTo(sequelize.models.User, 
-        {
-            foreignKey: 'created_by_id',
-            targetKey: 'id',
-            as: 'UserExam'
-        }
-    );
+
 
     return Exam;
 }

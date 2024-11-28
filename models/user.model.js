@@ -18,12 +18,16 @@ function model(sequelize) {
             type: DataTypes.STRING(50),
             allowNull: false
         },
+        username: {
+            type: DataTypes.STRING(50),
+            allowNull: false
+        },
         photo: {
-            type: DataTypes.BLOB('long'),
+            type: DataTypes.STRING(255),
             allowNull: false
         },
         password: {
-            type: DataTypes.BLOB(255),
+            type: DataTypes.STRING(255),
             allowNull: false
         },
         daily_goal: {
