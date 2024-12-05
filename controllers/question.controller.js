@@ -23,6 +23,7 @@ router.get("/:id", async (req, res) => {
         }
         return res.json(question);
     } catch (error) {
+        console.log(error);
         return res
             .status(500)
             .json({ statusCode: 500, error: "Something went wrong" });

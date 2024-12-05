@@ -2,7 +2,6 @@ const { Sequelize } = require("sequelize");
 const wordModel = require("../models/word.model");
 const questionModel = require("../models/question.model");
 const categoryModel = require("../models/category.model");
-const examQuestionModel = require("../models/exam_question.model");
 const examModel = require("../models/exam.model");
 const listModel = require("../models/list.model");
 const matchingExamQuestionModel = require("../models/matching_exam_question.model");
@@ -30,16 +29,17 @@ const sequelize = new Sequelize(
         dialectOptions: {
             options: { encrypt: false },
         },
-    }
+    },
 );
 
-const db = {};
+const db = {
+    sequelize,
+    Sequelize,};
 
 // Model initialization
 db.Word = wordModel(sequelize);
 db.Question = questionModel(sequelize);
 db.Category = categoryModel(sequelize);
-db.ExamQuestion = examQuestionModel(sequelize);
 db.Exam = examModel(sequelize);
 db.List = listModel(sequelize);
 db.MatchingExamQuestion = matchingExamQuestionModel(sequelize);
@@ -54,15 +54,26 @@ db.UserWord = userWordModel(sequelize);
 db.User = userModel(sequelize);
 db.WordList = wordListModel(sequelize);
 
-db.ExamQuestion.belongsTo(db.Exam, {
+db.Question.belongsTo(db.Exam,{
     foreignKey: "exam_id",
-    as: "examquestionxexam",
+    as:"questionnxexam"
 });
 
-db.ExamQuestion.belongsTo(db.Question, {
-    foreignKey: "question_id",
-    as: "examquestionxquestion",
+db.Exam.hasMany(db.Question,{
+    foreignKey: "exam_id",
+    as:"examxquestion"
 });
+
+db.Exam.belongsTo(db.User,{
+    foreignKey: "created_by_id",
+    as:"examxuser"
+});
+
+db.Question.hasMany(db.QuestionOption, {
+    foreignKey: 'question_id', 
+    as: 'questionxquestionoption'
+  });
+  
 
 db.QuestionOption.belongsTo(db.Question,{
     foreignKey: "question_id",
@@ -110,6 +121,17 @@ db.UserList.belongsTo(db.List, {
     foreignKey:'list_id',
     as:'userlistxlist'
 });
+
+db.Exam.hasMany(db.UserExam, {
+    foreignKey: "exam_id", 
+    as: "examxuserexam",
+});
+
+db.User.hasMany(db.UserExam, {
+    foreignKey: "user_id", 
+    as: "userxuserexam",
+});
+
 
 db.UserExam.belongsTo(db.Exam, {
     foreignKey: "exam_id",

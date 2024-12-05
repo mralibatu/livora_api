@@ -15,14 +15,22 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        var exam = await examService.findExamById(req.params.id);
+        const examId = req.params.id;
+        const userId = req.query.userId; 
+        
+        const whereCondition = userId ? { id: userId } : null;
+
+        const exam = await examService.findExamWithQuestionsById(examId, whereCondition);
+        
         if (!exam) {
             return res
                 .status(404)
-                .json({ statusCode: 404, error: "Exam Does not exist" });
+                .json({ statusCode: 404, error: "Exam does not exist or is not accessible to this user" });
         }
-        return res.json(exam);
+        
+        return res.json(exam); // Sınav bilgilerini döndür
     } catch (error) {
+        console.error(error);
         return res
             .status(500)
             .json({ statusCode: 500, error: "Something went wrong" });

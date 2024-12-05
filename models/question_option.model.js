@@ -30,11 +30,5 @@ function model(sequelize) {
 
     const QuestionOption = sequelize.define("QuestionOption", attributes, options);
 
-    QuestionOption.belongsTo(sequelize.models.Question, {
-        foreignKey: 'question_id', // Foreign key in QuestionOption
-        targetKey: 'id', // Primary key in Question
-        as: 'question' // Alias for the relationship
-    });
-
     return QuestionOption;
 }
