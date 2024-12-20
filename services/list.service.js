@@ -14,6 +14,28 @@ const findListById = async (id) => {
     });
 };
 
+const findListByIdWithWords = async (id) => {
+    return await db.List.findByPk(id, {
+        include: [
+            {
+                model: db.Category,
+                as: "listxcategory",
+                attributes: ["category_name", "difficulty_level", "isWordCategory"],
+            },
+            {
+                model: db.WordList,
+                as: "listxwordlist",
+                include: {
+                    model: db.Word,
+                    as: "wordlistxword",
+                    attributes: ["foreign_word", "main_lang_word", "hint_text", "level_id", "part_of_speech_id", "category_id"],
+                },
+            },
+        ],
+    });
+};
+
+
 const createList = async ({ list_name, repeat_day, is_private = 0, list_category_id}) => {
     const newList = await db.List.create(
         {
@@ -46,8 +68,9 @@ const deleteList = async (id) => {
 
 module.exports = {
     getAll,
-    createList,
     findListById,
+    findListByIdWithWords,
+    createList,
     updateList,
     deleteList,
 };

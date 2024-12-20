@@ -11,7 +11,7 @@ app.use("/api/words", require("./controllers/word.controller"));
 app.use("/api/questions", require("./controllers/question.controller"));
 app.use("/api/exams", require("./controllers/exam.controller"));
 app.use("/api/lists", require("./controllers/list.controller"));
-app.use("/api/questions", require("./controllers/question.controller"));
+app.use("/api/categories", require("./controllers/category.controller"));
 
 const port = process.env.PORT || 3000;
 

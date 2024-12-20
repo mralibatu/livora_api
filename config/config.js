@@ -157,6 +157,11 @@ db.List.belongsTo(db.Category, {
     as:'listxcategory'
 });
 
+db.List.hasMany(db.WordList,{
+    foreignKey: 'list_id',
+     as: 'listxwordlist' 
+});
+
 // Sync all models with the database
 sequelize.sync({ force: false });
 

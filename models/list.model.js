@@ -34,12 +34,6 @@ function model(sequelize) {
     };
 
     const List =  sequelize.define("List", attributes, options);
-
-    List.belongsTo(sequelize.models.Category, {
-        foreignKey: 'list_category_id',
-        targetKey: 'id',
-        as:'listCategory'
-    });
-
+    
     return List;
 }
