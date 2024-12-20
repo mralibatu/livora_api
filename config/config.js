@@ -4,9 +4,7 @@ const questionModel = require("../models/question.model");
 const categoryModel = require("../models/category.model");
 const examModel = require("../models/exam.model");
 const listModel = require("../models/list.model");
-const matchingExamQuestionModel = require("../models/matching_exam_question.model");
 const matchingPairsModel = require("../models/matching_pairs.model");
-const matchingQuestionModel = require("../models/matching_question.model");
 const partOfSpeechModel = require("../models/part_of_speech.model");
 const proficiencyLevelModel = require("../models/proficiency_level.model");
 const questionOptionModel = require("../models/question_option.model");
@@ -42,9 +40,7 @@ db.Question = questionModel(sequelize);
 db.Category = categoryModel(sequelize);
 db.Exam = examModel(sequelize);
 db.List = listModel(sequelize);
-db.MatchingExamQuestion = matchingExamQuestionModel(sequelize);
 db.MatchingPairs = matchingPairsModel(sequelize);
-db.MatchingQuestion = matchingQuestionModel(sequelize);
 db.PartOfSpeech = partOfSpeechModel(sequelize);
 db.ProficiencyLevel = proficiencyLevelModel(sequelize);
 db.QuestionOption = questionOptionModel(sequelize);
@@ -73,6 +69,11 @@ db.Question.hasMany(db.QuestionOption, {
     foreignKey: 'question_id', 
     as: 'questionxquestionoption'
   });
+
+db.Question.hasMany(db.MatchingPairs, {
+    foreignKey: 'question_id', 
+    as: 'questionxmatchingpairs'
+});
   
 
 db.QuestionOption.belongsTo(db.Question,{
@@ -80,22 +81,10 @@ db.QuestionOption.belongsTo(db.Question,{
     as:"questionoptionxquestion"
 })
 
-db.MatchingExamQuestion.belongsTo(db.Exam, {
-    foreignKey: 'matching_exam_id',
-    targetKey: 'id',
-    as:'matchingexamquestionxexam'
-});
-
-db.MatchingExamQuestion.belongsTo(db.MatchingQuestion, {
-    foreignKey: 'matching_exam_id',
-    targetKey: 'id',
-    as:'matchingexamquestionxquestion'
-});
-
-db.MatchingPairs.belongsTo(db.MatchingQuestion, {
-    foreignKey: 'question_id',
-    as:'matchingpairsxquestion'
-});
+db.MatchingPairs.belongsTo(db.Question,{
+    foreignKey: "question_id",
+    as:"matchingpairsxquestion"
+})
 
 db.Word.belongsTo(db.ProficiencyLevel, {
     foreignKey:'level_id',

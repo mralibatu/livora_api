@@ -31,15 +31,26 @@ router.get("/:id", async (req, res) => {
 });
 
 
-router.post("/", async (req, res) => {
+router.post("/multiplechoice", async (req, res) => {
     try {
-        var createdQuestion = await questionService.createQuestion(req.body);
+        var createdQuestion = await questionService.createMultipleChoiceQuestion(req.body);
         res.status(201).json(createdQuestion);
     } catch (error) {
         console.log(error);
         res.status(500).json({ statusCode: 500, error: "Something went wrong" });
     }
 });
+
+router.post("/matching", async (req, res) => {
+    try {
+        var createdQuestion = await questionService.createMatchingQuestion(req.body);
+        res.status(201).json(createdQuestion);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ statusCode: 500, error: "Something went wrong" });
+    }
+});
+
 
 router.put("/:id", async (req, res) => {
     try {

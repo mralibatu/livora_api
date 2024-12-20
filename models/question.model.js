@@ -17,7 +17,11 @@ function model(sequelize) {
         question_text: {
             type: DataTypes.STRING(255),
             allowNull: false
-        }
+        },
+        is_matching: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
     };
     const options = {
         timestamps: false,

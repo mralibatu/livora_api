@@ -2,10 +2,29 @@ const express = require("express");
 const router = express.Router();
 const examService = require("../services/exam.service");
 
-
 router.get("/", async (req, res) => {
     try {
         var exams = await examService.getAll();
+        res.json(exams);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ statusCode: 500, error: "Something went wrong" });
+    }
+});
+
+router.get("/exams", async (req, res) => {
+    try {
+        var exams = await examService.getExams();
+        res.json(exams);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ statusCode: 500, error: "Something went wrong" });
+    }
+});
+
+router.get("/matchingexams", async (req, res) => {
+    try {
+        var exams = await examService.getMatchingExams();
         res.json(exams);
     } catch (err) {
         console.log(err);
@@ -20,7 +39,7 @@ router.get("/:id", async (req, res) => {
         
         const whereCondition = userId ? { id: userId } : null;
 
-        const exam = await examService.findExamWithQuestionsById(examId, whereCondition);
+        const exam = await examService.findExamById(examId, whereCondition);
         
         if (!exam) {
             return res
@@ -28,7 +47,50 @@ router.get("/:id", async (req, res) => {
                 .json({ statusCode: 404, error: "Exam does not exist or is not accessible to this user" });
         }
         
-        return res.json(exam); // Sınav bilgilerini döndür
+        return res.json(exam);
+    } catch (error) {
+        console.error(error);
+        return res
+            .status(500)
+            .json({ statusCode: 500, error: "Something went wrong" });
+    }
+});
+
+router.get("/:id/userinfo", async (req, res) => {
+    try {
+        const examId = req.params.id;
+
+        const exam = await examService.findExamByIdWithUserInfo(examId);
+        
+        if (!exam) {
+            return res
+                .status(404)
+                .json({ statusCode: 404, error: "Exam does not exist or is not accessible to this user" });
+        }
+        
+        return res.json(exam);
+    } catch (error) {
+        console.error(error);
+        return res
+            .status(500)
+            .json({ statusCode: 500, error: "Something went wrong" });
+    }
+});
+
+
+router.get("/:id/questions", async (req, res) => {
+    try {
+        const examId = req.params.id;
+
+        const exam = await examService.findQuestionsByExamId(examId);
+        
+        if (!exam) {
+            return res
+                .status(404)
+                .json({ statusCode: 404, error: "Exam does not exist or is not accessible to this user" });
+        }
+        
+        return res.json(exam);
     } catch (error) {
         console.error(error);
         return res
