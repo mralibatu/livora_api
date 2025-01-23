@@ -15,24 +15,21 @@ const findListById = async (id) => {
 };
 
 const findListByIdWithWords = async (id) => {
-    return await db.List.findByPk(id, {
+    const list = await db.List.findByPk(id, {
         include: [
-            {
-                model: db.Category,
-                as: "listxcategory",
-                attributes: ["category_name", "difficulty_level", "isWordCategory"],
-            },
             {
                 model: db.WordList,
                 as: "listxwordlist",
                 include: {
                     model: db.Word,
                     as: "wordlistxword",
-                    attributes: ["foreign_word", "main_lang_word", "hint_text", "level_id", "part_of_speech_id", "category_id"],
+                    attributes: ["id","foreign_word", "main_lang_word", "hint_text", "level_id", "part_of_speech_id", "category_id"],
                 },
             },
         ],
     });
+
+    return list ? list.listxwordlist.map(item => item.wordlistxword) : [];
 };
 
 

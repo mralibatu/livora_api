@@ -30,22 +30,30 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.get("/:id/category", async (req, res) => {
+router.get("/category/:categoryId", async (req, res) => {
     try {
-        var word = await wordService.findWordByIdWithCategory(req.params.id);
-        if (!word) {
-            return res
-                .status(404)
-                .json({ statusCode: 404, error: "Word does not exist" });
-        }
-        return res.json(word);
-    } catch (error) {
-        console.log(error);
-        return res
-            .status(500)
-            .json({ statusCode: 500, error: "Something went wrong" });
+        const { categoryId } = req.params;
+        const words = await wordService.getWordsByCategory(categoryId); // Call the service function
+
+        res.json(words);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ statusCode: 500, error: "Something went wrong" });
     }
 });
+
+router.get("/level/:levelId", async (req, res) => {
+    try {
+        const { levelId } = req.params;
+        const words = await wordService.getWordsByLevel(levelId); // Call the service function
+
+        res.json(words);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ statusCode: 500, error: "Something went wrong" });
+    }
+});
+
 
 
 

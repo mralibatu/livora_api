@@ -4,6 +4,43 @@ const getAll = async () => {
     return await db.Word.findAll();
 };
 
+const getWordsByCategory = async (categoryId) => {
+    try {
+        const words = await db.Word.findAll({
+            where: { category_id: categoryId }, // Filter by category_id
+            include: [
+                {
+                    model: db.Category,
+                    as: 'wordxcategory', // Match the alias used in the association
+                },
+            ],
+        });
+
+        return words;
+    } catch (error) {
+        throw new Error(`Error fetching words for category ${categoryId}: ${error.message}`);
+    }
+};
+
+const getWordsByLevel = async (levelId) => {
+    try {
+        const words = await db.Word.findAll({
+            where: { level_id: levelId }, // Filter by level_id
+            include: [
+                {
+                    model: db.Category,
+                    as: 'wordxcategory', // Include the associated category
+                },
+            ],
+        });
+
+        return words;
+    } catch (error) {
+        throw new Error(`Error fetching words for level ${levelId}: ${error.message}`);
+    }
+};
+
+
 const findWordById = async (id) => {
     return await db.Word.findByPk(id, {
         include: [
@@ -60,6 +97,8 @@ const deleteWord = async (id) => {
 
 module.exports = {
     getAll,
+    getWordsByCategory,
+    getWordsByLevel,
     createWord,
     findWordById,
     updateWord,

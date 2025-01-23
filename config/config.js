@@ -60,6 +60,11 @@ db.Exam.hasMany(db.Question,{
     as:"examxquestion"
 });
 
+db.Exam.hasMany(db.MatchingPairs,{
+    foreignKey: "exam_id",
+    as:"examxmatching"
+});
+
 db.Exam.belongsTo(db.User,{
     foreignKey: "created_by_id",
     as:"examxuser"
@@ -69,11 +74,6 @@ db.Question.hasMany(db.QuestionOption, {
     foreignKey: 'question_id', 
     as: 'questionxquestionoption'
   });
-
-db.Question.hasMany(db.MatchingPairs, {
-    foreignKey: 'question_id', 
-    as: 'questionxmatchingpairs'
-});
   
 
 db.QuestionOption.belongsTo(db.Question,{
@@ -81,9 +81,9 @@ db.QuestionOption.belongsTo(db.Question,{
     as:"questionoptionxquestion"
 })
 
-db.MatchingPairs.belongsTo(db.Question,{
-    foreignKey: "question_id",
-    as:"matchingpairsxquestion"
+db.MatchingPairs.belongsTo(db.Exam,{
+    foreignKey: "exam_id",
+    as:"matchingpairsxexam"
 })
 
 db.Word.belongsTo(db.ProficiencyLevel, {
@@ -94,6 +94,11 @@ db.Word.belongsTo(db.ProficiencyLevel, {
 db.Word.belongsTo(db.Category, {
     foreignKey:'category_id',
     as:'wordxcategory'
+});
+
+db.Category.hasMany(db.Word, {
+    foreignKey: 'category_id',
+    as: 'wordxcategory',
 });
 
 db.Word.belongsTo(db.PartOfSpeech, {
